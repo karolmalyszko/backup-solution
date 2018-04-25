@@ -1,0 +1,20 @@
+{
+  "servers" : [
+    {
+      "host" : "localhost",
+      "user" : "sonny",
+      "backupSource" : "/home/",
+      "backupDestination" : "localhost/",
+      "command" : "rsync",
+      "arguments" : "-ravzX --delete"
+    },
+    {
+      "host" : "bitcraft-dns",
+      "user" : "sonny",
+      "backupSource" : "/etc/bind/",
+      "backupDestination" : "bitcraft-dns/",
+      "command" : "rsync",
+      "arguments" : "-ravzX --delete"
+    }
+  ]
+}
