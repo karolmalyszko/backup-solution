@@ -11,14 +11,27 @@ class BackupWrapper:
     arguments = ''
 
     def __init__(self, server):
-        self.host = (server["host"])
-        self.user = (server["user"])
+        if "host" in server:
+            self.host = (server["host"])
+        else:
+            self.host = None
+        if "user" in server:
+            self.user = (server["user"])
+        else:
+            self.user = None
+
         self.backupSource = (server["backupSource"])
         self.backupDestination = (server["backupDestination"])
         self.command = (server["command"])
         self.arguments = (server["arguments"])
 
-        commandLine = self.command + " " + self.arguments + " " + self.user + "@" + self.host + ":" + self.backupSource + " " + self.backupDestination + ".sync"
+        commandLine = self.command + " " + self.arguments
 
+        if self.user and self.host:
+            commandLine = commandLine + " " + self.user + "@" + self.host + ":"
+        else:
+            commandLine = commandLine + self.backupSource + " " + self.backupDestination + ".sync"
+
+        # os.system(commandLine)
         returned_value = os.system(commandLine)
         print('Returned value :: ', returned_value)

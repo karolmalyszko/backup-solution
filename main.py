@@ -6,6 +6,7 @@ from BackupWrapper import BackupWrapper
 from Helpers import directoryHelper
 from Helpers import configurationValidator
 from Helpers import createBackup0
+from settings import defaultRetentionPeriod
 
 # global variables
 defaultBackupRetentionPeriod = 7
@@ -41,12 +42,12 @@ def runBackup(configfile):
             # iterate over servers in configuration file
             for server in serverConfiguration["servers"]:
                 server = configurationValidator(server)
-#                if "retentionPeriod" not in server:
-#                    retentionTime = defaultBackupRetentionPeriod
-#                else:
-#                    retentionTime = server["retentionPeriod"]
+                if "retentionPeriod" not in server:
+                    retentionTime = defaultRetentionPeriod
+                else:
+                    retentionTime = server["retentionPeriod"]
 
-                # asses directory structure
+                # assess directory structure
                 directoryHelper(retentionTime, server["backupDestination"])
 
                 # execute backup job to [backupDestination]/.sync
