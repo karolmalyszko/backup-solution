@@ -4,6 +4,8 @@ import os
 import json
 from BackupWrapper import BackupWrapper
 from Helpers import directoryHelper
+from Helpers import configurationValidator
+from Helpers import createBackup0
 
 # global variables
 defaultBackupRetentionPeriod = 7
@@ -13,28 +15,24 @@ def main(argv):
     configfile = ''
     try:
         opts, args = getopt.getopt(argv, "hc:", ["cfile="])
-#        print("opts number", len(opts))
-#        print("args number", len(args))
         for opt, arg in opts:
             if opt in ("-h", "--help"):
                 print('backup.py -c <configuration file>')
                 sys.exit()
             elif opt in ("-c", "--cfile"):
                 configfile = arg
- #               print("Opening ", configfile)
-                digestConfigFile(configfile)
+                runBackup(configfile)
             else:
                 print("Opening ", configfile)
         if (len(args) == 0) and (len(opts) == 0):
             configfile = "configuration-main.json"
- #           print("Opening ", configfile)
-            digestConfigFile(configfile)
+            runBackup(configfile)
     except getopt.GetoptError:
         print('backup.py -c <configuration file>')
         sys.exit(2)
 
 
-def digestConfigFile(configfile):
+def runBackup(configfile):
     # validate if file exists
     if os.path.isfile(configfile):
         with open(configfile) as json_data:
@@ -42,17 +40,18 @@ def digestConfigFile(configfile):
 
             # iterate over servers in configuration file
             for server in serverConfiguration["servers"]:
-                if "retentionPeriod" not in server:
-#                    print("Setting retentionTime to default value")
-                    retentionTime = defaultBackupRetentionPeriod
-                else:
-                    retentionTime = server["retentionPeriod"]
+                server = configurationValidator(server)
+#                if "retentionPeriod" not in server:
+#                    retentionTime = defaultBackupRetentionPeriod
+#                else:
+#                    retentionTime = server["retentionPeriod"]
 
                 # asses directory structure
                 directoryHelper(retentionTime, server["backupDestination"])
 
                 # execute backup job to [backupDestination]/.sync
                 BackupWrapper(server)
+                createBackup0(server["backupDestination"])
 
         # sync backup directories with S3 bucket
         return 0
