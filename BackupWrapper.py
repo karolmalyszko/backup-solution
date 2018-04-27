@@ -25,12 +25,14 @@ class BackupWrapper:
         self.command = (server["command"])
         self.arguments = (server["arguments"])
 
+        # TODO change to string.format style
+        # TODO command structure in case no user and host present
         commandLine = self.command + " " + self.arguments
 
         if self.user and self.host:
-            commandLine = commandLine + " " + self.user + "@" + self.host + ":"
-        #else:
-        commandLine = commandLine + " " + self.backupSource + " " + self.backupDestination + ".sync"
+            commandLine = commandLine + " " + self.user + "@" + self.host + ":" + self.backupSource + " " + self.backupDestination + ".sync"
+        else:
+            commandLine = commandLine + " " + self.backupSource + " " + self.backupDestination + ".sync"
 
         print("Backup command to be executed :: " + commandLine)
 
