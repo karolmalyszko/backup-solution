@@ -40,7 +40,7 @@ def createBackup0(backupDestination):
     if DEBUG:
         print("Creating backup.0")
     os.system("cp -al " + backupDestination + ".sync " + backupDestination + "backup.0")
-    os.system("touch {}backup.0/{}".format(backupDestination, datetime.datetime.now().strftime("%d-%m-%Y")))
+    os.system("touch {}backup.0/{}.timestamp".format(backupDestination, datetime.datetime.now().strftime("%d-%m-%Y")))
     return 0
 
 
