@@ -31,11 +31,11 @@ class BackupWrapper:
 
         if self.user and self.host:
             # commandLine = commandLine + " " + self.user + "@" + self.host + ":" + self.backupSource + " " + self.backupDestination + ".sync"
-            commandLine = "{} {} {}@{}:{} {}.sync"
-            commandLine.format(self.command, self.arguments, self.user, self.host, self.backupSource, self.backupDestination)
+            commandLine = "{} {} {}@{}:{} {}.sync".format(self.command, self.arguments, self.user, self.host, self.backupSource, self.backupDestination)
+            print(commandLine)
         else:
-            commandLine = "{} {} {} {}.sync"
-            commandLine.format(self.command, self.arguments, self.backupSource, self.backupDestination)
+            commandLine = "{} {} {} {}.sync".format(self.command, self.arguments, self.backupSource, self.backupDestination)
+            print(commandLine)
             # commandLine = commandLine + " " + self.backupSource + " " + self.backupDestination + ".sync"
 
         print("Backup command to be executed :: " + commandLine)
