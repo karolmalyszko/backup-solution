@@ -19,11 +19,17 @@ def main(argv):
                 sys.exit()
             elif opt in ("-c", "--cfile"):
                 configfile = arg
+
+                print("Reading from file :: " + str(configfile))
+
                 runBackup(configfile)
             else:
                 print("Opening ", configfile)
         if (len(args) == 0) and (len(opts) == 0):
             configfile = "configuration-main.json"
+
+            print("Reading from file :: " + str(configfile))
+
             runBackup(configfile)
     except getopt.GetoptError:
         print('backup.py -c <configuration file>')
@@ -40,9 +46,12 @@ def runBackup(configfile):
             for server in serverConfiguration["servers"]:
                 server = configurationValidator(server)
                 if "retentionPeriod" not in server:
+                    print("Setting retention time to default.")
                     retentionTime = settings.defaultRetentionPeriod
                 else:
                     retentionTime = server["retentionPeriod"]
+
+                print("Retention time :: " + str(retentionTime))
 
                 # assess directory structure
                 directoryHelper(retentionTime, server["backupDestination"])
