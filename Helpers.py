@@ -37,9 +37,8 @@ def directoryRotator(retentionTime, backupDestination):
 
 def createBackup0(backupDestination):
     # create backup.0 from .sync
-    if DEBUG:
-        logging.debug("Creating backup.0")
     os.system("cp -al {}.sync {}backup.0".format(backupDestination, backupDestination))
+    logging.info("copying {}.sync to {}backup.0".format(backupDestination, backupDestination))
     os.system("echo {} > {}backup.0/{}.timestamp".format(datetime.datetime.now().strftime("%d-%m-%Y"),
                                                          backupDestination,
                                                          datetime.datetime.now().strftime("%d-%m-%Y")))
@@ -86,3 +85,10 @@ def configurationValidator(configuration):
         configuration["arguments"] = settings.defaultArguments
 
     return configuration
+
+
+def s3syncer(backupDestination, host):
+    syncCommand = "aws s3 sync {} s3://bitcraft.backup/{}".format(backupDestination, host)
+    logging.info("Syncinc {} with directory {} on S3".format(backupDestination, host))
+    os.system(syncCommand)
+    return 0

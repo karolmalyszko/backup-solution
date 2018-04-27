@@ -6,6 +6,7 @@ from BackupWrapper import BackupWrapper
 from Helpers import directoryHelper
 from Helpers import configurationValidator
 from Helpers import createBackup0
+from Helpers import s3syncer
 import settings
 import logging
 
@@ -13,7 +14,6 @@ DEBUG = settings.debug
 
 
 def main(argv):
-    # configfile = ''
     try:
         opts, args = getopt.getopt(argv, "hc:", ["cfile="])
         for opt, arg in opts:
@@ -29,6 +29,16 @@ def main(argv):
     except getopt.GetoptError:
         print('backup.py -c <configuration file>')
         exit(1)
+
+
+# TODO ???
+def executeSimpleBackupJob():
+    return 0
+
+
+# TODO
+def executeRemoteScript():
+    return 0
 
 
 def runBackup(configfile):
@@ -67,8 +77,7 @@ def runBackup(configfile):
 
                 createBackup0(server["backupDestination"])
 
-                syncCommand = "aws s3 sync {} s3://bitcraft.backup/{}".format(server["backupDestination"], server["host"])
-                os.system(syncCommand)
+                s3syncer(server["backupDestination"], server["host"])
         exit(0)
     else:
         logging.error("Configuration file not found. Aborting execution.")
