@@ -41,6 +41,7 @@ def main(argv):
 
 
 def runBackup(configfile):
+    # TODO logging to file
     # validate if file exists
     if os.path.isfile(configfile):
         with open(configfile) as json_data:
@@ -63,15 +64,19 @@ def runBackup(configfile):
 
                 # execute backup job to [backupDestination]/.sync
                 # this is the equivalent of sync_first switch from rsnapshot
-                backupCommand = BackupWrapper(server)
-                try:
-                    if DEBUG:
-                        print(backupCommand)
+                backupCommand = str(BackupWrapper(server))
+                if DEBUG:
+                    print("Running backup job with :: " + backupCommand)
+                os.system(backupCommand)
+                '''try:
                     os.system(backupCommand)
-                    createBackup0(server["backupDestination"])
                 except:
                     print("Backup operation failed")
-                    exit(2)
+                    if DEBUG:
+                        print(os.system(backupCommand))
+                    exit(2)'''
+
+                createBackup0(server["backupDestination"])
 
                 syncCommand = "aws s3 sync {} s3://bitcraft.backup/{}".format(server["backupDestination"], server["host"])
                 os.system(syncCommand)

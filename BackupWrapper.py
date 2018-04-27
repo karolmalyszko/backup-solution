@@ -44,4 +44,4 @@ class BackupWrapper:
         # return self.commandLine
 
     def __repr__(self):
-        return self.commandLine
+        return str(self.commandLine)

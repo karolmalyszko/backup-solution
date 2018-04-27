@@ -4,6 +4,7 @@ import datetime
 
 DEBUG = settings.debug
 
+
 def directoryHelper(retentionTime, backupDestination):
     # check if backupDestination exists
     if not os.path.isdir(backupDestination):
