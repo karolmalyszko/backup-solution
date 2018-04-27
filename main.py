@@ -18,7 +18,7 @@ def main(argv):
         for opt, arg in opts:
             if opt in ("-h", "--help"):
                 print('backup.py -c <configuration file>')
-                sys.exit()
+                sys.exit(0)
             elif opt in ("-c", "--cfile"):
                 configfile = arg
 
@@ -37,7 +37,7 @@ def main(argv):
             runBackup(configfile)
     except getopt.GetoptError:
         print('backup.py -c <configuration file>')
-        sys.exit(2)
+        exit(1)
 
 
 def runBackup(configfile):
@@ -68,22 +68,13 @@ def runBackup(configfile):
                 if DEBUG:
                     print("Running backup job with :: " + backupCommand)
                 os.system(backupCommand)
-                '''try:
-                    os.system(backupCommand)
-                except:
-                    print("Backup operation failed")
-                    if DEBUG:
-                        print(os.system(backupCommand))
-                    exit(2)'''
-
                 createBackup0(server["backupDestination"])
-
                 syncCommand = "aws s3 sync {} s3://bitcraft.backup/{}".format(server["backupDestination"], server["host"])
                 os.system(syncCommand)
-        return 0
+        exit(0)
     else:
         print("You ungrateful bastard!")
-        return 1
+        exit(2)
 
 
 # Script entrypoint

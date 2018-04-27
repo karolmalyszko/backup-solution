@@ -40,7 +40,9 @@ def createBackup0(backupDestination):
     if DEBUG:
         print("Creating backup.0")
     os.system("cp -al " + backupDestination + ".sync " + backupDestination + "backup.0")
-    os.system("echo {} > {}backup.0/{}.timestamp".format(datetime.datetime.now().strftime("%d-%m-%Y"), backupDestination, datetime.datetime.now().strftime("%d-%m-%Y")))
+    os.system("echo {} > {}backup.0/{}.timestamp".format(datetime.datetime.now().strftime("%d-%m-%Y"),
+                                                         backupDestination,
+                                                         datetime.datetime.now().strftime("%d-%m-%Y")))
     return 0
 
 
@@ -53,7 +55,7 @@ def configurationValidator(configuration):
     # check if backupDestination ends in /
     if not str(configuration["backupDestination"]).endswith("/"):
         print("Incorrect 'backupDestination' path, must end with /")
-        exit(1)
+        exit(3)
 
     # check if user key exists; not sure if it is really necessary, may be included in backupSource key
     if "user" in configuration:
@@ -63,15 +65,15 @@ def configurationValidator(configuration):
             if str(configuration["host"]) is not "localhost":
                 if str(configuration["user"]) is "":
                     print("No user present. This ain't gonna work. Fix it!")
-                    exit(1)
+                    exit(4)
         else:
             print("No host present, but user is. This does not look right. Think it trough. Terminating.")
-            exit(1)
+            exit(5)
 
     # check if backupSource key exists
     if "backupSource" not in configuration:
         print("Nothng to backup. Really?")
-        exit(1)
+        exit(6)
 
     # check if command key exists
     if "command" not in configuration:

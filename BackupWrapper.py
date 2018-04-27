@@ -1,6 +1,3 @@
-#import settings
-
-
 class BackupWrapper:
 
     host = ''
@@ -12,7 +9,6 @@ class BackupWrapper:
     commandLine = ''
 
     def __init__(self, server):
-#        DEBUG = settings.debug
         if "host" in server:
             self.host = (server["host"])
         else:
@@ -30,18 +26,9 @@ class BackupWrapper:
         if self.user and self.host:
             self.commandLine = "{} {} {}@{}:{} {}.sync".format(self.command, self.arguments, self.user, self.host,
                                                           self.backupSource, self.backupDestination)
-#            if DEBUG:
-#                print(self.commandLine)
         else:
             self.commandLine = "{} {} {} {}.sync".format(self.command, self.arguments, self.backupSource,
                                                     self.backupDestination)
-#            if DEBUG:
-#                print(self.commandLine)
-
-#        if DEBUG:
-#            print("Backup command to be executed :: " + self.commandLine)
-
-        # return self.commandLine
 
     def __repr__(self):
         return str(self.commandLine)
