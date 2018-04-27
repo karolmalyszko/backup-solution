@@ -22,13 +22,9 @@ def main(argv):
                 sys.exit(0)
             elif opt in ("-c", "--cfile"):
                 configfile = arg
-                # logging.info("Reading from file :: {}".format(configfile))
                 runBackup(configfile)
-#            else:
-#                logging.info("Using configuration file :: ", configfile)
         if (len(args) == 0) and (len(opts) == 0):
             configfile = "configuration-main.json"
-            # logging.info("Using default configuration file.")
             runBackup(configfile)
     except getopt.GetoptError:
         print('backup.py -c <configuration file>')
@@ -50,6 +46,7 @@ def runBackup(configfile):
                                     filename='/var/log/backup-solution/{}.log'.format(server["host"]),
                                     filemode='a'
                                     )
+                logging.info("Running with configuration file :: {}".format(configfile))
                 if "retentionPeriod" not in server:
                     logging.info("Setting retention time to default.")
                     retentionTime = settings.defaultRetentionPeriod

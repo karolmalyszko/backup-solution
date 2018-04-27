@@ -3,13 +3,6 @@ import settings
 import datetime
 import logging
 
-# TODO logfile per backup job
-# logging.basicConfig(level=logging.DEBUG,
-#                    format='%(asctime)s %(levelname)-8s %(message)s',
-#                    datefmt='%d-%m-%y %H:%M:%S',
-#                    filename='/var/log/backup-solution.log',
-#                    filemode='a'
-#                    )
 DEBUG = settings.debug
 
 
@@ -28,16 +21,13 @@ def directoryHelper(retentionTime, backupDestination):
 
 
 def directoryRotator(retentionTime, backupDestination):
-    # TODO convert to string.format() syntax
     # remove oldest snapshot
     if os.path.isdir("{}backup.{}".format(backupDestination, retentionTime)):
-        if DEBUG:
-            logging.debug("Removing oldest backup dir")
+        logging.info("Removing oldest backup dir")
         os.system("rm -rf {}backup.{}".format(backupDestination, retentionTime))
 
     # rotate backups one tier down
     logging.info("Rotating backups")
-    # TODO add logging for each operation
     for x in range(int(retentionTime) - 1, -1, -1):
         if os.path.isdir("{}backup.{}".format(backupDestination, x)):
             os.system("mv {}backup.{} {}backup.{}".format(backupDestination, x, backupDestination, x+1))

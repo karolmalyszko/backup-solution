@@ -6,7 +6,8 @@ Backup solution designed specifically for pulling backups from **remote** machin
 
 **Configuration file syntax**
 
-```json{
+```json
+{
   "servers" : [
     {
       "host" : "localhost",
