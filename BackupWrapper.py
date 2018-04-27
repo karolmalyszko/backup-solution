@@ -32,6 +32,8 @@ class BackupWrapper:
         else:
             commandLine = commandLine + self.backupSource + " " + self.backupDestination + ".sync"
 
+        print("Backup command to be executed :: " + commandLine)
+
         # os.system(commandLine)
         returned_value = os.system(commandLine)
         print('Returned value :: ', returned_value)
