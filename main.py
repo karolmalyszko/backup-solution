@@ -7,9 +7,9 @@ from Helpers import directoryHelper
 from Helpers import configurationValidator
 from Helpers import createBackup0
 import settings
-from pprint import pprint
 
 DEBUG = settings.debug
+
 
 def main(argv):
     configfile = ''
@@ -46,8 +46,6 @@ def runBackup(configfile):
         with open(configfile) as json_data:
             serverConfiguration = json.load(json_data)
 
-            pprint(serverConfiguration)
-
             # iterate over servers in configuration file
             for server in serverConfiguration["servers"]:
                 server = configurationValidator(server)
@@ -61,15 +59,22 @@ def runBackup(configfile):
                     print("Retention time :: " + str(retentionTime))
 
                 # assess directory structure
-                # TODO incremental backups and not full
                 directoryHelper(retentionTime, server["backupDestination"])
 
                 # execute backup job to [backupDestination]/.sync
                 # this is the equivalent of sync_first switch from rsnapshot
-                BackupWrapper(server)
-                createBackup0(server["backupDestination"])
+                backupCommand = BackupWrapper(server)
+                try:
+                    if DEBUG:
+                        print(backupCommand)
+                    os.system(backupCommand)
+                    createBackup0(server["backupDestination"])
+                except:
+                    print("Backup operation failed")
+                    exit(2)
 
-        # TODO sync backup directories with S3 bucket
+                syncCommand = "aws s3 sync {} s3://bitcraft.backup/{}".format(server["backupDestination"], server["host"])
+                os.system(syncCommand)
         return 0
     else:
         print("You ungrateful bastard!")

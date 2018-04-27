@@ -1,5 +1,4 @@
-import os
-import settings
+#import settings
 
 
 class BackupWrapper:
@@ -10,10 +9,10 @@ class BackupWrapper:
     backupDestination = ''
     command = ''
     arguments = ''
+    commandLine = ''
 
     def __init__(self, server):
-        DEBUG = settings.debug
-
+#        DEBUG = settings.debug
         if "host" in server:
             self.host = (server["host"])
         else:
@@ -29,21 +28,20 @@ class BackupWrapper:
         self.arguments = (server["arguments"])
 
         if self.user and self.host:
-            commandLine = "{} {} {}@{}:{} {}.sync".format(self.command, self.arguments, self.user, self.host,
+            self.commandLine = "{} {} {}@{}:{} {}.sync".format(self.command, self.arguments, self.user, self.host,
                                                           self.backupSource, self.backupDestination)
-            if DEBUG:
-                print(commandLine)
+#            if DEBUG:
+#                print(self.commandLine)
         else:
-            commandLine = "{} {} {} {}.sync".format(self.command, self.arguments, self.backupSource,
+            self.commandLine = "{} {} {} {}.sync".format(self.command, self.arguments, self.backupSource,
                                                     self.backupDestination)
-            if DEBUG:
-                print(commandLine)
+#            if DEBUG:
+#                print(self.commandLine)
 
-        if DEBUG:
-            print("Backup command to be executed :: " + commandLine)
+#        if DEBUG:
+#            print("Backup command to be executed :: " + self.commandLine)
 
-        if DEBUG:
-            returned_value = os.system(commandLine)
-            print('Returned value :: ', returned_value)
-        else:
-            os.system(commandLine)
+        # return self.commandLine
+
+    def __repr__(self):
+        return self.commandLine

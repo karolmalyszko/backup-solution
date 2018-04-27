@@ -1,5 +1,6 @@
 import os
 import settings
+import datetime
 
 DEBUG = settings.debug
 
@@ -38,6 +39,7 @@ def createBackup0(backupDestination):
     if DEBUG:
         print("Creating backup.0")
     os.system("cp -al " + backupDestination + ".sync " + backupDestination + "backup.0")
+    os.system("touch {}backup.0/{}".format(backupDestination, datetime.datetime.now().strftime("%d-%m-%Y")))
     return 0
 
 
