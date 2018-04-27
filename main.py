@@ -7,6 +7,7 @@ from Helpers import directoryHelper
 from Helpers import configurationValidator
 from Helpers import createBackup0
 import settings
+from pprint import pprint
 
 
 def main(argv):
@@ -41,6 +42,8 @@ def runBackup(configfile):
     if os.path.isfile(configfile):
         with open(configfile) as json_data:
             serverConfiguration = json.load(json_data)
+
+            pprint(serverConfiguration)
 
             # iterate over servers in configuration file
             for server in serverConfiguration["servers"]:
