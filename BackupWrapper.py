@@ -1,4 +1,5 @@
 import os
+import settings
 
 
 class BackupWrapper:
@@ -11,6 +12,8 @@ class BackupWrapper:
     arguments = ''
 
     def __init__(self, server):
+        DEBUG = settings.debug
+
         if "host" in server:
             self.host = (server["host"])
         else:
@@ -25,21 +28,22 @@ class BackupWrapper:
         self.command = (server["command"])
         self.arguments = (server["arguments"])
 
-        # TODO change to string.format style
-        # TODO command structure in case no user and host present
-        # commandLine = self.command + " " + self.arguments
-
         if self.user and self.host:
-            # commandLine = commandLine + " " + self.user + "@" + self.host + ":" + self.backupSource + " " + self.backupDestination + ".sync"
-            commandLine = "{} {} {}@{}:{} {}.sync".format(self.command, self.arguments, self.user, self.host, self.backupSource, self.backupDestination)
-            print(commandLine)
+            commandLine = "{} {} {}@{}:{} {}.sync".format(self.command, self.arguments, self.user, self.host,
+                                                          self.backupSource, self.backupDestination)
+            if DEBUG:
+                print(commandLine)
         else:
-            commandLine = "{} {} {} {}.sync".format(self.command, self.arguments, self.backupSource, self.backupDestination)
-            print(commandLine)
-            # commandLine = commandLine + " " + self.backupSource + " " + self.backupDestination + ".sync"
+            commandLine = "{} {} {} {}.sync".format(self.command, self.arguments, self.backupSource,
+                                                    self.backupDestination)
+            if DEBUG:
+                print(commandLine)
 
-        print("Backup command to be executed :: " + commandLine)
+        if DEBUG:
+            print("Backup command to be executed :: " + commandLine)
 
-        # os.system(commandLine)
-        returned_value = os.system(commandLine)
-        print('Returned value :: ', returned_value)
+        if DEBUG:
+            returned_value = os.system(commandLine)
+            print('Returned value :: ', returned_value)
+        else:
+            os.system(commandLine)

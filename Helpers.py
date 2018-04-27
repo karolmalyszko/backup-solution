@@ -1,14 +1,18 @@
 import os
 import settings
 
+DEBUG = settings.debug
+
 def directoryHelper(retentionTime, backupDestination):
     # check if backupDestination exists
     if not os.path.isdir(backupDestination):
-        print("Creating 'backupDestination' directory")
+        if DEBUG:
+            print("Creating 'backupDestination' directory")
         os.system("mkdir " + backupDestination)
     else:
         # rotate backup directories
-        print("Rotating directories")
+        if DEBUG:
+            print("Rotating directories")
         directoryRotator(retentionTime, backupDestination)
     return 0
 
@@ -16,11 +20,13 @@ def directoryHelper(retentionTime, backupDestination):
 def directoryRotator(retentionTime, backupDestination):
     # remove oldest snapshot
     if os.path.isdir(backupDestination + 'backup.' + str(retentionTime)):
-        print("Removing oldest backup dir")
+        if DEBUG:
+            print("Removing oldest backup dir")
         os.system("rm -rf " + backupDestination + "backup." + str(retentionTime))
 
     # rotate backups one tier down
-    print("Rotating backups")
+    if DEBUG:
+        print("Rotating backups")
     for x in range(int(retentionTime) - 1, -1, -1):
         if os.path.isdir(backupDestination + 'backup.' + str(x)):
             os.system('mv ' + backupDestination + 'backup.' + str(x) + ' ' + backupDestination + 'backup.' + str(x+1))
@@ -29,8 +35,9 @@ def directoryRotator(retentionTime, backupDestination):
 
 def createBackup0(backupDestination):
     # create backup.0 from .sync
-    print("Creating backup.0")
-    os.system("mv " + backupDestination + ".sync " + backupDestination + "backup.0")
+    if DEBUG:
+        print("Creating backup.0")
+    os.system("cp -al " + backupDestination + ".sync " + backupDestination + "backup.0")
     return 0
 
 

@@ -9,6 +9,7 @@ from Helpers import createBackup0
 import settings
 from pprint import pprint
 
+DEBUG = settings.debug
 
 def main(argv):
     configfile = ''
@@ -21,7 +22,8 @@ def main(argv):
             elif opt in ("-c", "--cfile"):
                 configfile = arg
 
-                print("Reading from file :: " + str(configfile))
+                if DEBUG:
+                    print("Reading from file :: " + str(configfile))
 
                 runBackup(configfile)
             else:
@@ -29,7 +31,8 @@ def main(argv):
         if (len(args) == 0) and (len(opts) == 0):
             configfile = "configuration-main.json"
 
-            print("Reading from file :: " + str(configfile))
+            if DEBUG:
+                print("Reading from file :: " + str(configfile))
 
             runBackup(configfile)
     except getopt.GetoptError:
@@ -54,18 +57,20 @@ def runBackup(configfile):
                 else:
                     retentionTime = server["retentionPeriod"]
 
-                print("Retention time :: " + str(retentionTime))
+                if DEBUG:
+                    print("Retention time :: " + str(retentionTime))
 
                 # assess directory structure
+                # TODO incremental backups and not full
                 directoryHelper(retentionTime, server["backupDestination"])
 
                 # execute backup job to [backupDestination]/.sync
+                # this is the equivalent of sync_first switch from rsnapshot
                 BackupWrapper(server)
                 createBackup0(server["backupDestination"])
 
-        # sync backup directories with S3 bucket
+        # TODO sync backup directories with S3 bucket
         return 0
-    # validate JSON contents
     else:
         print("You ungrateful bastard!")
         return 1
