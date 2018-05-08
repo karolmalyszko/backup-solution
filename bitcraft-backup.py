@@ -71,14 +71,16 @@ def runBackup(configfile):
                 directoryHelper(server["retentionPeriod"], server["backupDestination"])
 
                 # assess if there is a script to execute on remote machine
-                if "remoteScript" in server:
+                if "remoteScript" not in server:
+                    executeSimpleBackupJob(server)
+                else:
                     if server["remoteScript"] is not "":
                         # it appears that there in fact is a remote script
                         executeRemoteScript(server)
                         # and now backup the result of script execution
                         executeSimpleBackupJob(server)
                     else:
-                        # no script, run just the standard backup job
+                        # no script but key exists in configuration file; run just the standard backup job
                         executeSimpleBackupJob(server)
 
                 s3sync(server["backupDestination"], server["host"])
