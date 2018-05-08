@@ -1,0 +1,12 @@
+{
+  "servers" : [
+    {
+      "host" : "bitcraft-fileserver",
+      "user" : "sonny",
+      "backupSource" : "/dockervolumes/",
+      "backupDestination" : "/backupspace/bitcraft-fileserver/",
+      "command" : "rsync",
+      "arguments" : "-ravzX --delete"
+    }
+  ]
+}

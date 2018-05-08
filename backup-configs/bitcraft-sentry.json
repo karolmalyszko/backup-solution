@@ -1,0 +1,28 @@
+{
+  "servers" : [
+    {
+      "host" : "bitcraft-sentry",
+      "user" : "sonny",
+      "backupSource" : "/var/lib/docker/volumes/",
+      "backupDestination" : "/backupspace/bitcraft-sentry/",
+      "command" : "rsync",
+      "arguments" : "-ravzX --delete"
+    },
+    {
+      "host" : "bitcraft-sentry",
+      "user" : "sonny",
+      "backupSource" : "/etc/sentry/",
+      "backupDestination" : "/backupspace/bitcraft-sentry/sentry/",
+      "command" : "rsync",
+      "arguments" : "-ravzX --delete"
+    },
+    {
+      "host" : "bitcraft-sentry",
+      "user" : "sonny",
+      "backupSource" : "/etc/sonarqube/",
+      "backupDestination" : "/backupspace/bitcraft-sentry/sonar/",
+      "command" : "rsync",
+      "arguments" : "-ravzX --delete"
+    }
+  ]
+}

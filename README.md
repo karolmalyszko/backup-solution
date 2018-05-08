@@ -6,7 +6,7 @@ Backup solution designed specifically for pulling backups from **remote** machin
 
 **Configuration file syntax**
 
-You can put multiple server blocks inside one configuration file.
+You can put multiple server blocks inside one configuration file. This may as well reflect multiple backup sources inside single machine
 
 ```json
 {

@@ -1,0 +1,12 @@
+{
+  "servers" : [
+    {
+      "host" : "bitcraft-jenkins",
+      "user" : "sonny",
+      "backupSource" : "/var/lib/jenkins/",
+      "backupDestination" : "/backupspace/bitcraft-jenkins/",
+      "command" : "rsync",
+      "arguments" : "-ravzX --delete"
+    }
+  ]
+}

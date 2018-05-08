@@ -1,0 +1,12 @@
+{
+  "servers" : [
+    {
+      "host" : "bitcraft-dns",
+      "user" : "sonny",
+      "backupSource" : "/etc/bind/",
+      "backupDestination" : "/backupspace/bitcraft-dns/",
+      "command" : "rsync",
+      "arguments" : "-ravzX --delete"
+    }
+  ]
+}

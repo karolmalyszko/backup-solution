@@ -1,0 +1,12 @@
+{
+  "servers" : [
+    {
+      "host" : "bitcraft-rancher-target-three",
+      "user" : "sonny",
+      "backupSource" : "/dockervolumes/",
+      "backupDestination" : "/backupspace/bitcraft-rancher-target-three/",
+      "command" : "rsync",
+      "arguments" : "-ravzX --delete"
+    }
+  ]
+}
