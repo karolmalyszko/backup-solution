@@ -6,7 +6,8 @@
       "backupSource" : "/etc/bind/",
       "backupDestination" : "bitcraft-dns/",
       "command" : "rsync",
-      "arguments" : "-ravzX --delete"
+      "arguments" : "-ravzX --delete",
+      "remoteScript" : ""
     }
   ]
 }

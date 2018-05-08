@@ -31,13 +31,21 @@ def main(argv):
         exit(1)
 
 
-# TODO ???
-def executeSimpleBackupJob():
+def executeSimpleBackupJob(server):
+    # execute backup job to [backupDestination]/.sync
+    # this is the equivalent of sync_first switch from rsnapshot
+    backupCommand = str(BackupWrapper(server))
+    logging.info("Running backup job with :: " + backupCommand)
+    os.system(backupCommand)
+
+    createBackup0(server["backupDestination"])
     return 0
 
 
-# TODO
-def executeRemoteScript():
+def executeRemoteScript(server):
+    backupCommand = "ssh {}@{} {}".format(server["user"], server["host"], server["remoteScript"])
+    logging.info("Running script on remote machine with :: " + backupCommand)
+    os.system(backupCommand)
     return 0
 
 
@@ -57,25 +65,21 @@ def runBackup(configfile):
                                     filemode='a'
                                     )
                 logging.info("Running with configuration file :: {}".format(configfile))
-                if "retentionPeriod" not in server:
-                    logging.info("Setting retention time to default.")
-                    retentionTime = settings.defaultRetentionPeriod
-                else:
-                    retentionTime = server["retentionPeriod"]
-
-                if DEBUG:
-                    logging.debug("Retention time :: {}".format(retentionTime))
 
                 # assess directory structure
-                directoryHelper(retentionTime, server["backupDestination"])
+                directoryHelper(server["retentionPeriod"], server["backupDestination"])
 
-                # execute backup job to [backupDestination]/.sync
-                # this is the equivalent of sync_first switch from rsnapshot
-                backupCommand = str(BackupWrapper(server))
-                logging.info("Running backup job with :: " + backupCommand)
-                os.system(backupCommand)
+                # assess if there is a script to execute on remote machine
+                if "remoteScript" in server:
+                    if server["remoteScript"] is not "":
+                        # it appears that there in fact is a remote script
+                        executeRemoteScript(server)
+                        # and now backup the result of script execution
+                        executeSimpleBackupJob(server)
+                    else:
+                        # no script, run just the standard backup job
+                        executeSimpleBackupJob(server)
 
-                createBackup0(server["backupDestination"])
 
                 s3syncer(server["backupDestination"], server["host"])
         exit(0)

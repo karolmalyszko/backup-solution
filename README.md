@@ -2,9 +2,11 @@ Backup solution designed specifically for pulling backups from **remote** machin
 
 **Usage**
 
-`python bitcraft-backup -c /absolute/path/to/configuration/file.json`
+`python bitcraft-backup.py -c /absolute/path/to/configuration/file.json`
 
 **Configuration file syntax**
+
+You can put multiple server blocks inside one configuration file.
 
 ```json
 {
@@ -23,7 +25,8 @@ Backup solution designed specifically for pulling backups from **remote** machin
       "backupSource" : "/etc/bind/",
       "backupDestination" : "bitcraft-dns/",
       "command" : "rsync",
-      "arguments" : "-ravzX --delete"
+      "arguments" : "-ravzX --delete",
+      "remoteScript" : ""
     }
   ]
 }

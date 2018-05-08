@@ -39,6 +39,7 @@ def createBackup0(backupDestination):
     # create backup.0 from .sync
     os.system("cp -al {}.sync {}backup.0".format(backupDestination, backupDestination))
     logging.info("copying {}.sync to {}backup.0".format(backupDestination, backupDestination))
+    # additional backup creation time info; has to have non-0 length for proper S3 sync
     os.system("echo {} > {}backup.0/{}.timestamp".format(datetime.datetime.now().strftime("%d-%m-%Y"),
                                                          backupDestination,
                                                          datetime.datetime.now().strftime("%d-%m-%Y")))
@@ -83,6 +84,10 @@ def configurationValidator(configuration):
     if "arguments" not in configuration:
         logging.warning("Setting arguments to defaults.")
         configuration["arguments"] = settings.defaultArguments
+
+    if "retentionPeriod" not in configuration:
+        logging.warning("Retention period not present in configuration file. Setting to default value.")
+        configuration["retentionPeriod"] = settings.defaultRetentionPeriod
 
     return configuration
 
