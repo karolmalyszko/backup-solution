@@ -12,22 +12,25 @@ You can put multiple server blocks inside one configuration file.
 {
   "servers" : [
     {
-      "host" : "localhost",
-      "user" : "sonny",
-      "backupSource" : "/home/",
-      "backupDestination" : "localhost/",
-      "command" : "rsync",
-      "arguments" : "-ravzX --delete"
+      "host" : "<name or IP address of remote host>",
+      "user" : "<user able to connect to remote host without password>",
+      "backupSource" : "<file or directory to backup>",
+      "backupDestination" : "<directory for storing backed-up files, must end with '/'; defaults to '/tmp' if not provided>",
+      "command" : "<command to create backup with, defaults to 'rsync' if not provided>",
+      "arguments" : "<additional arguments for command, defaults to '-ravzX --delete' if not provided>",
+      "remoteScript" : "<absolute path to script performing additional operations; optional>",
+      "retentionPeriod" : "<determines how many backups to retain; defaults to 7 if not provided>"
     },
     {
-      "host" : "bitcraft-dns",
-      "user" : "sonny",
-      "backupSource" : "/etc/bind/",
-      "backupDestination" : "bitcraft-dns/",
-      "command" : "rsync",
-      "arguments" : "-ravzX --delete",
-      "remoteScript" : ""
-    }
+      "host" : "<name or IP address of remote host>",
+      "user" : "<user able to connect to remote host without password>",
+      "backupSource" : "<file or directory to backup>",
+      "backupDestination" : "<directory for storing backed-up files, must end with '/'; defaults to '/tmp' if not provided>",
+      "command" : "<command to create backup with, defaults to 'rsync' if not provided>",
+      "arguments" : "<additional arguments for command, defaults to '-ravzX --delete' if not provided>",
+      "remoteScript" : "<absolute path to script performing additional operations; optional>",
+      "retentionPeriod" : "<determines how many backups to retain; defaults to 7 if not provided>"
+    }    
   ]
 }
 ```

@@ -6,7 +6,7 @@ from BackupWrapper import BackupWrapper
 from Helpers import directoryHelper
 from Helpers import configurationValidator
 from Helpers import createBackup0
-from Helpers import s3syncer
+from Helpers import s3sync
 import settings
 import logging
 
@@ -34,7 +34,7 @@ def main(argv):
 def executeSimpleBackupJob(server):
     # execute backup job to [backupDestination]/.sync
     # this is the equivalent of sync_first switch from rsnapshot
-    backupCommand = str(BackupWrapper(server))
+    backupCommand = str(BackupWrapper(server, 1))
     logging.info("Running backup job with :: " + backupCommand)
     os.system(backupCommand)
 
@@ -43,14 +43,15 @@ def executeSimpleBackupJob(server):
 
 
 def executeRemoteScript(server):
-    backupCommand = "ssh {}@{} {}".format(server["user"], server["host"], server["remoteScript"])
+    # backupCommand = "ssh {}@{} {}".format(server["user"], server["host"], server["remoteScript"])
+    backupCommand = str(BackupWrapper(server, 2))
     logging.info("Running script on remote machine with :: " + backupCommand)
     os.system(backupCommand)
     return 0
 
 
 def runBackup(configfile):
-    # validate if file exists
+    # verify if file exists
     if os.path.isfile(configfile):
         with open(configfile) as json_data:
             serverConfiguration = json.load(json_data)
@@ -80,8 +81,7 @@ def runBackup(configfile):
                         # no script, run just the standard backup job
                         executeSimpleBackupJob(server)
 
-
-                s3syncer(server["backupDestination"], server["host"])
+                s3sync(server["backupDestination"], server["host"])
         exit(0)
     else:
         logging.error("Configuration file not found. Aborting execution.")
