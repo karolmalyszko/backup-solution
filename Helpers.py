@@ -10,7 +10,7 @@ def directoryHelper(retentionTime, backupDestination):
     # check if backupDestination exists
     if not os.path.isdir(backupDestination):
         logging.info("Creating 'backupDestination' directory")
-        os.system("mkdir {}".format(backupDestination))
+        os.system("mkdir -p {}".format(backupDestination))
     else:
         # rotate backup directories
         directoryRotator(retentionTime, backupDestination)
