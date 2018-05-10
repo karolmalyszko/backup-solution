@@ -84,6 +84,7 @@ def runBackup(configfile):
                         executeSimpleBackupJob(server)
 
                 s3sync(server["backupDestination"], server["host"])
+                logging.info("Finished.")
         exit(0)
     else:
         logging.error("Configuration file not found. Aborting execution.")

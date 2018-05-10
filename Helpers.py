@@ -9,7 +9,7 @@ DEBUG = settings.debug
 def directoryHelper(retentionTime, backupDestination):
     # check if backupDestination exists
     if not os.path.isdir(backupDestination):
-        logging.info("Creating 'backupDestination' directory")
+        logging.info("Creating '{}' directory".format(backupDestination))
         os.system("mkdir -p {}".format(backupDestination))
     else:
         # rotate backup directories
@@ -91,6 +91,8 @@ def configurationValidator(configuration):
 
 def s3sync(backupDestination, host):
     syncCommand = "aws s3 sync {} s3://bitcraft.backup/{}".format(backupDestination, host)
+    if DEBUG:
+        logging.debug(syncCommand)
     logging.info("Syncing {} with directory {} on S3".format(backupDestination, host))
     os.system(syncCommand)
     return 0
