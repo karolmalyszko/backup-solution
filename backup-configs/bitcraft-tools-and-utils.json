@@ -6,7 +6,8 @@
       "backupSource" : "/dockervolumes/",
       "backupDestination" : "/backupspace/bitcraft-tools-and-utils/",
       "command" : "rsync",
-      "arguments" : "-ravzX --delete"
+      "arguments" : "-ravzX --delete",
+      "retentionPeriod" : "3"
     },
     {
       "host" : "bitcraft-tools-and-utils",
@@ -14,7 +15,8 @@
       "backupSource" : "/docker-storage/volumes/",
       "backupDestination" : "/backupspace/bitcraft-tools-and-utils/",
       "command" : "rsync",
-      "arguments" : "-ravzX --delete"
+      "arguments" : "-ravzX --delete",
+      "retentionPeriod" : "3"
     }
   ]
 }

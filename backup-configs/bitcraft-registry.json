@@ -14,7 +14,8 @@
       "backupSource" : "/var/lib/docker/volumes/",
       "backupDestination" : "/backupspace/bitcraft-registry/",
       "command" : "rsync",
-      "arguments" : "-ravzX --delete"
+      "arguments" : "-ravzX --delete",
+      "retentionPeriod" : "3"
     }
   ]
 }

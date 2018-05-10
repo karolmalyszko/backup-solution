@@ -6,7 +6,8 @@
       "backupSource" : "/dockervolumes/",
       "backupDestination" : "/backupspace/bitcraft-rancher-target-five/",
       "command" : "rsync",
-      "arguments" : "-ravzX --delete"
+      "arguments" : "-ravzX --delete",
+      "retentionPeriod" : "3"
     }
   ]
 }

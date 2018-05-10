@@ -6,7 +6,8 @@
       "backupSource" : "/var/lib/docker/volumes/",
       "backupDestination" : "/backupspace/bitcraft-sentry/",
       "command" : "rsync",
-      "arguments" : "-ravzX --delete"
+      "arguments" : "-ravzX --delete",
+      "retentionPeriod" : "3"
     },
     {
       "host" : "bitcraft-sentry",
