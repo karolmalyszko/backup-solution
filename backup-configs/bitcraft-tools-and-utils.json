@@ -4,18 +4,18 @@
       "host" : "bitcraft-tools-and-utils",
       "user" : "sonny",
       "backupSource" : "/dockervolumes/",
-      "backupDestination" : "/backupspace/bitcraft-tools-and-utils/",
+      "backupDestination" : "/backupspace/bitcraft-tools-and-utils/dockervolumes/",
       "command" : "rsync",
-      "arguments" : "-ravzX --delete",
+      "arguments" : "-razX --delete",
       "retentionPeriod" : "3"
     },
     {
       "host" : "bitcraft-tools-and-utils",
       "user" : "sonny",
       "backupSource" : "/docker-storage/volumes/",
-      "backupDestination" : "/backupspace/bitcraft-tools-and-utils/",
+      "backupDestination" : "/backupspace/bitcraft-tools-and-utils/docker-storage/volumes/",
       "command" : "rsync",
-      "arguments" : "-ravzX --delete",
+      "arguments" : "-razX --delete",
       "retentionPeriod" : "3"
     }
   ]
