@@ -90,7 +90,8 @@ def configurationValidator(configuration):
 
 
 def s3sync(backupDestination, host):
-    syncCommand = "aws s3 sync {} s3://bitcraft.backup/{}".format(backupDestination, host)
+    # syncCommand = "aws s3 sync {} s3://bitcraft.backup/{} --only-show-errors".format(backupDestination, host)
+    syncCommand = "aws s3 cp {}*.tar.gz s3://bitcraft.backup/{}/ --only-show-errors".format(backupDestination, host)
     if DEBUG:
         logging.debug(syncCommand)
     logging.info("Syncing {} with directory {} on S3".format(backupDestination, host))

@@ -9,6 +9,7 @@ from Helpers import createBackup0
 from Helpers import s3sync
 import settings
 import logging
+import time
 
 DEBUG = settings.debug
 
@@ -39,6 +40,8 @@ def executeSimpleBackupJob(server):
     os.system(backupCommand)
 
     createBackup0(server["backupDestination"])
+
+    compressBackup(server["backupDestination"])
     return 0
 
 
@@ -47,6 +50,14 @@ def executeRemoteScript(server):
     backupCommand = str(BackupWrapper(server, 2))
     logging.info("Running script on remote machine with :: " + backupCommand)
     os.system(backupCommand)
+    return 0
+
+
+def compressBackup(destination):
+    compressCommand = "tar -czf {}backup.0.tar.gz {}backup.0".format(destination, destination)
+    if DEBUG:
+        logging.debug("Compressing backup with command :: " + compressCommand)
+    os.system(compressCommand)
     return 0
 
 
@@ -84,7 +95,11 @@ def runBackup(configfile):
                         executeSimpleBackupJob(server)
 
                 s3sync(server["backupDestination"], server["host"])
-                logging.info("Finished.")
+
+                logging.info("Job done. If there is another, i'll wait for couple of seconds.")
+                time.sleep(3)
+
+        logging.info("Finished all jobs from configuration file.")
         exit(0)
     else:
         logging.error("Configuration file not found. Aborting execution.")

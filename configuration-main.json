@@ -7,7 +7,8 @@
       "backupDestination" : "bitcraft-dns/",
       "command" : "rsync",
       "arguments" : "-ravzX --delete",
-      "remoteScript" : ""
+      "remoteScript" : "",
+      "retentionPeriod" : "7"
     }
   ]
 }
