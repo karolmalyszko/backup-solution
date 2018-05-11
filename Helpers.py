@@ -29,7 +29,7 @@ def fileRotator(retentionTime, backupDestination):
     for x in range(int(retentionTime) - 1, -1, -1):
         if os.path.isfile("{}backup.{}.tar.gz".format(backupDestination, x)):
             os.system("mv {}backup.{}.tar.gz {}backup.{}.tar.gz".format(backupDestination, x, backupDestination, x+1))
-            logging.info("moving archives {}backup.{} to {}backup.{}".format(backupDestination, x, backupDestination, x+1))
+            logging.info("moving archives {}backup.{}.tar.gz to {}backup.{}.tar.gz".format(backupDestination, x, backupDestination, x+1))
     return 0
 
 
@@ -38,10 +38,11 @@ def createBackup0(backupDestination):
     os.system("cp -al {}.sync {}backup.0".format(backupDestination, backupDestination))
     logging.info("copying {}.sync to {}backup.0".format(backupDestination, backupDestination))
 
-    # additional backup creation time info; has to have non-0 length for proper S3 sync
-    os.system("echo {} > {}backup.0/{}.timestamp".format(datetime.datetime.now().strftime("%d-%m-%Y"),
+    # additional backup creation time info
+    '''os.system("echo {} > {}backup.0/{}.timestamp".format(datetime.datetime.now().strftime("%d-%m-%Y"),
                                                          backupDestination,
-                                                         datetime.datetime.now().strftime("%d-%m-%Y")))
+                                                         datetime.datetime.now().strftime("%d-%m-%Y")))'''
+    os.system("touch {}backup.0/{}.timestamp".format(datetime.datetime.now().strftime("%d-%m-%Y"),backupDestination))
     return 0
 
 
@@ -99,7 +100,7 @@ def s3sync(backupDestination, host):
         #syncCommand = "aws s3 cp {}*.tar.gz s3://bitcraft.backup/{}/ --only-show-errors".format(backupDestination, host)
         syncCommand = 'aws s3 cp {} s3://bitcraft.backup/{}/ --only-show-errors --recursive --exclude "*" --include "*.tar.gz"'.format(backupDestination, host)
     if DEBUG:
-        logging.debug(syncCommand)
+        logging.debug("Sync command :: {}".format(syncCommand))
 
     logging.info("Syncing {} with directory {} on S3".format(backupDestination, host))
     os.system(syncCommand)

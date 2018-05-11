@@ -4,7 +4,7 @@
     {
       "host" : "bitcraft-tools-and-utils",
       "user" : "sonny",
-      "backupSource" : "/dockervolumes/",
+      "backupSource" : "/swp/",
       "backupDestination" : "/backupspace/bitcraft-tools-and-utils/dockervolumes/",
       "command" : "rsync",
       "arguments" : "-razX --delete",
