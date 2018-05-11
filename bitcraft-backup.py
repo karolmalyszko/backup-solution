@@ -2,14 +2,13 @@ import sys
 import getopt
 import os
 import json
-from BackupWrapper import BackupWrapper
 from Helpers import directoryHelper
 from Helpers import configurationValidator
-from Helpers import createBackup0
+from Helpers import executeSimpleBackupJob
+from Helpers import executeRemoteScript
 from Helpers import s3sync
 import settings
 import logging
-import time
 
 DEBUG = settings.debug
 
@@ -32,42 +31,13 @@ def main(argv):
         exit(1)
 
 
-def executeSimpleBackupJob(server):
-    # execute backup job to [backupDestination]/.sync
-    # this is the equivalent of sync_first switch from rsnapshot
-    backupCommand = str(BackupWrapper(server, 1))
-    logging.info("Running backup job with :: " + backupCommand)
-    os.system(backupCommand)
-
-    createBackup0(server["backupDestination"])
-
-    compressBackup(server["backupDestination"])
-    return 0
-
-
-def executeRemoteScript(server):
-    # backupCommand = "ssh {}@{} {}".format(server["user"], server["host"], server["remoteScript"])
-    backupCommand = str(BackupWrapper(server, 2))
-    logging.info("Running script on remote machine with :: " + backupCommand)
-    os.system(backupCommand)
-    return 0
-
-
-def compressBackup(destination):
-    compressCommand = "tar -czf {}backup.0.tar.gz {}backup.0".format(destination, destination)
-    if DEBUG:
-        logging.debug("Compressing backup with command :: " + compressCommand)
-    os.system(compressCommand)
-    return 0
-
-
 def runBackup(configfile):
     # verify if file exists
     if os.path.isfile(configfile):
         with open(configfile) as json_data:
             serverConfiguration = json.load(json_data)
 
-            # iterate over servers in configuration file
+            # iterate over elements in configuration file
             for server in serverConfiguration["server"]:
                 server = configurationValidator(server)
                 logging.basicConfig(level=logging.DEBUG,
@@ -96,10 +66,7 @@ def runBackup(configfile):
 
                 s3sync(server["backupDestination"], server["host"])
 
-                logging.info("Job done. If there is another, i'll wait for couple of seconds.")
-                time.sleep(3)
-
-        logging.info("Finished all jobs from configuration file.")
+        logging.info("Finished job from configuration file.")
         exit(0)
     else:
         logging.error("Configuration file not found. Aborting execution.")

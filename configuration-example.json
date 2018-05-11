@@ -1,13 +1,6 @@
 {
-  "servers" : [
-    {
-      "host" : "localhost",
-      "user" : "sonny",
-      "backupSource" : "/home/",
-      "backupDestination" : "localhost/",
-      "command" : "rsync",
-      "arguments" : "-ravzX --delete"
-    },
+  "server" :
+  [
     {
       "host" : "bitcraft-dns",
       "user" : "sonny",

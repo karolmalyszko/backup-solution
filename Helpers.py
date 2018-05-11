@@ -2,6 +2,7 @@ import os
 import settings
 import datetime
 import logging
+from BackupWrapper import BackupWrapper
 
 DEBUG = settings.debug
 
@@ -12,23 +13,23 @@ def directoryHelper(retentionTime, backupDestination):
         logging.info("Creating '{}' directory".format(backupDestination))
         os.system("mkdir -p {}".format(backupDestination))
     else:
-        # rotate backup directories
-        directoryRotator(retentionTime, backupDestination)
+        # rotate backup archives
+        fileRotator(retentionTime, backupDestination)
     return 0
 
 
-def directoryRotator(retentionTime, backupDestination):
+def fileRotator(retentionTime, backupDestination):
     # remove oldest snapshot
-    if os.path.isdir("{}backup.{}".format(backupDestination, retentionTime)):
+    if os.path.isfile("{}backup.{}.tar.gz".format(backupDestination, retentionTime)):
         logging.info("Removing oldest backup dir")
-        os.system("rm -rf {}backup.{}".format(backupDestination, retentionTime))
+        os.system("rm -f {}backup.{}.tar.gz".format(backupDestination, retentionTime))
 
     # rotate backups one tier down
     logging.info("Rotating backups")
     for x in range(int(retentionTime) - 1, -1, -1):
-        if os.path.isdir("{}backup.{}".format(backupDestination, x)):
-            os.system("mv {}backup.{} {}backup.{}".format(backupDestination, x, backupDestination, x+1))
-            logging.info("moving {}backup.{} to {}backup.{}".format(backupDestination, x, backupDestination, x+1))
+        if os.path.isfile("{}backup.{}.tar.gz".format(backupDestination, x)):
+            os.system("mv {}backup.{}.tar.gz {}backup.{}.tar.gz".format(backupDestination, x, backupDestination, x+1))
+            logging.info("moving archives {}backup.{} to {}backup.{}".format(backupDestination, x, backupDestination, x+1))
     return 0
 
 
@@ -36,6 +37,7 @@ def createBackup0(backupDestination):
     # create backup.0 from .sync
     os.system("cp -al {}.sync {}backup.0".format(backupDestination, backupDestination))
     logging.info("copying {}.sync to {}backup.0".format(backupDestination, backupDestination))
+
     # additional backup creation time info; has to have non-0 length for proper S3 sync
     os.system("echo {} > {}backup.0/{}.timestamp".format(datetime.datetime.now().strftime("%d-%m-%Y"),
                                                          backupDestination,
@@ -96,4 +98,45 @@ def s3sync(backupDestination, host):
         logging.debug(syncCommand)
     logging.info("Syncing {} with directory {} on S3".format(backupDestination, host))
     os.system(syncCommand)
+    return 0
+
+
+def executeSimpleBackupJob(server):
+    # execute backup job to [backupDestination]/.sync
+    # this is the equivalent of sync_first switch from rsnapshot
+    backupCommand = str(BackupWrapper(server, 1))
+    logging.info("Running backup job with :: " + backupCommand)
+    os.system(backupCommand)
+
+    createBackup0(server["backupDestination"])
+
+    compressBackup(server["backupDestination"])
+    return 0
+
+
+def executeRemoteScript(server):
+    backupCommand = str(BackupWrapper(server, 2))
+    logging.info("Running script on remote machine with :: " + backupCommand)
+    os.system(backupCommand)
+    return 0
+
+
+def compressBackup(destination):
+    if DEBUG:
+        parameters = 'czvf'
+    else:
+        parameters = 'czf'
+
+    compressCommand = "tar -{} {}backup.0.tar.gz {}backup.0".format(parameters, destination, destination)
+
+    if DEBUG:
+        logging.debug("Compressing backup with command :: " + compressCommand)
+    else:
+        logging.info("Compressing backup.")
+
+    os.system(compressCommand)
+
+    logging.info("Removing directory backup.0")
+    os.system("rm -rf {}backup.0".format(destination))
+
     return 0
