@@ -42,7 +42,7 @@ def createBackup0(backupDestination):
     '''os.system("echo {} > {}backup.0/{}.timestamp".format(datetime.datetime.now().strftime("%d-%m-%Y"),
                                                          backupDestination,
                                                          datetime.datetime.now().strftime("%d-%m-%Y")))'''
-    os.system("touch {}backup.0/{}.timestamp".format(datetime.datetime.now().strftime("%d-%m-%Y"),backupDestination))
+    os.system("touch {}backup.0/{}.timestamp".format(backupDestination, datetime.datetime.now().strftime("%d-%m-%Y")))
     return 0
 
 

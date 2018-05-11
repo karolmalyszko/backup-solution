@@ -8,7 +8,8 @@
       "backupDestination" : "/backupspace/bitcraft-tools-and-utils/dockervolumes/",
       "command" : "rsync",
       "arguments" : "-razX --delete",
-      "retentionPeriod" : "3"
+      "retentionPeriod" : "3",
+      "remoteScript" : "ssh sonny@bitcraft-tools-and-utils 'sudo tar -czf /swp/dockervolumes.tar.gz /dockervolumes && sudo tar -czf /docker-storage.tar.gz /docker-storage/volumes && sudo chmod 777 /swp'"
     }
   ]
 }
