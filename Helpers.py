@@ -92,10 +92,15 @@ def configurationValidator(configuration):
 
 
 def s3sync(backupDestination, host):
-    # syncCommand = "aws s3 sync {} s3://bitcraft.backup/{} --only-show-errors".format(backupDestination, host)
-    syncCommand = "aws s3 cp {}*.tar.gz s3://bitcraft.backup/{}/ --only-show-errors".format(backupDestination, host)
+    if DEBUG:
+        # syncCommand = "aws s3 cp {}*.tar.gz s3://bitcraft.backup/{}/".format(backupDestination, host)
+        syncCommand = 'aws s3 cp {} s3://bitcraft.backup/{}/ --recursive --exclude "*" --include "*.tar.gz"'.format(backupDestination, host)
+    else:
+        #syncCommand = "aws s3 cp {}*.tar.gz s3://bitcraft.backup/{}/ --only-show-errors".format(backupDestination, host)
+        syncCommand = 'aws s3 cp {} s3://bitcraft.backup/{}/ --only-show-errors --recursive --exclude "*" --include "*.tar.gz"'.format(backupDestination, host)
     if DEBUG:
         logging.debug(syncCommand)
+
     logging.info("Syncing {} with directory {} on S3".format(backupDestination, host))
     os.system(syncCommand)
     return 0
@@ -122,11 +127,7 @@ def executeRemoteScript(server):
 
 
 def compressBackup(destination):
-    if DEBUG:
-        parameters = 'czvf'
-    else:
-        parameters = 'czf'
-
+    parameters = 'czf'
     compressCommand = "tar -{} {}backup.0.tar.gz {}backup.0".format(parameters, destination, destination)
 
     if DEBUG:
