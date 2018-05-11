@@ -68,7 +68,7 @@ def runBackup(configfile):
             serverConfiguration = json.load(json_data)
 
             # iterate over servers in configuration file
-            for server in serverConfiguration["servers"]:
+            for server in serverConfiguration["server"]:
                 server = configurationValidator(server)
                 logging.basicConfig(level=logging.DEBUG,
                                     format='%(asctime)s %(levelname)-8s %(message)s',

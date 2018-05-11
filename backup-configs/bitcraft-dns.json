@@ -1,5 +1,6 @@
 {
-  "servers" : [
+  "server" :
+  [
     {
       "host" : "bitcraft-dns",
       "user" : "sonny",

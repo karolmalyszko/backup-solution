@@ -1,14 +1,6 @@
 {
-  "servers" : [
-    {
-      "host" : "bitcraft-tools-and-utils",
-      "user" : "sonny",
-      "backupSource" : "/dockervolumes/",
-      "backupDestination" : "/backupspace/bitcraft-tools-and-utils/dockervolumes/",
-      "command" : "rsync",
-      "arguments" : "-razX --delete",
-      "retentionPeriod" : "3"
-    },
+  "server" :
+  [
     {
       "host" : "bitcraft-tools-and-utils",
       "user" : "sonny",
