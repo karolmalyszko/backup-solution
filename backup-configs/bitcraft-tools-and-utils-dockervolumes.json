@@ -5,11 +5,11 @@
       "host" : "bitcraft-tools-and-utils",
       "user" : "sonny",
       "backupSource" : "/swp/",
-      "backupDestination" : "/backupspace/bitcraft-tools-and-utils/dockervolumes/",
+      "backupDestination" : "/backupspace/bitcraft-tools-and-utils/",
       "command" : "rsync",
       "arguments" : "-razX --delete",
       "retentionPeriod" : "3",
-      "remoteScript" : "ssh sonny@bitcraft-tools-and-utils 'sudo tar -czf /swp/dockervolumes.tar.gz /dockervolumes && sudo tar -czf /docker-storage.tar.gz /docker-storage/volumes && sudo chmod 777 /swp'"
+      "remoteScript" : "sudo bash /swp/remoteScript.sh"
     }
   ]
 }
