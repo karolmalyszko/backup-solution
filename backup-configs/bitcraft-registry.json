@@ -1,5 +1,6 @@
 {
-  "servers" : [
+  "server" :
+  [
     {
       "host" : "bitcraft-registry",
       "user" : "sonny",
@@ -7,15 +8,6 @@
       "backupDestination" : "/backupspace/bitcraft-registry/",
       "command" : "rsync",
       "arguments" : "-ravzX --delete"
-    },
-    {
-      "host" : "bitcraft-registry",
-      "user" : "sonny",
-      "backupSource" : "/var/lib/docker/volumes/",
-      "backupDestination" : "/backupspace/bitcraft-registry/",
-      "command" : "rsync",
-      "arguments" : "-ravzX --delete",
-      "retentionPeriod" : "3"
     }
   ]
 }

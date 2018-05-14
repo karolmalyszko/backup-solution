@@ -1,5 +1,6 @@
 {
-  "servers" : [
+  "server" :
+  [
     {
       "host" : "bitcraft-sentry",
       "user" : "sonny",
@@ -7,23 +8,9 @@
       "backupDestination" : "/backupspace/bitcraft-sentry/",
       "command" : "rsync",
       "arguments" : "-ravzX --delete",
-      "retentionPeriod" : "3"
-    },
-    {
-      "host" : "bitcraft-sentry",
-      "user" : "sonny",
-      "backupSource" : "/etc/sentry/",
-      "backupDestination" : "/backupspace/bitcraft-sentry/sentry/",
-      "command" : "rsync",
-      "arguments" : "-ravzX --delete"
-    },
-    {
-      "host" : "bitcraft-sentry",
-      "user" : "sonny",
-      "backupSource" : "/etc/sonarqube/",
-      "backupDestination" : "/backupspace/bitcraft-sentry/sonar/",
-      "command" : "rsync",
-      "arguments" : "-ravzX --delete"
+      "retentionPeriod" : "3",
+      "remoteScript" : "sudo bash /swp/remoteScript.sh",
+      "postExec" : "sudo rm -f /swp/*.tar.gz"
     }
   ]
 }

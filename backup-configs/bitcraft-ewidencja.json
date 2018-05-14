@@ -1,0 +1,14 @@
+{
+  "server" :
+  [
+    {
+      "host" : "bitcraft-ewidencja",
+      "user" : "sonny",
+      "remoteScript" : "sudo -u postgres pg_dump ewidencja > ewidencja.sql",
+      "backupSource" : "/home/users/sonny/ewidencja.sql",
+      "backupDestination" : "/backupspace/bitcraft-ewidencja/",
+      "command" : "rsync",
+      "arguments" : "-ravzX --delete"
+    }
+  ]
+}
