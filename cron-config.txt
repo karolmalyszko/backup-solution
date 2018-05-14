@@ -1,3 +1,7 @@
 # m     h       dom     mon     dow     command
 12      01      *       *       0-6     python /backupspace/backup-solution/bitcraft-backup.py -c /backupspace/backup-solution/backup-configs/bitcraft-dns.json
-
+15      00      *       *       0-6     python /backupspace/backup-solution/bitcraft-backup.py -c /backupspace/backup-solution/backup-configs/bitcraft-tools-and-utils.json
+00      22      *       *       0-6     python /backupspace/backup-solution/bitcraft-backup.py -c /backupspace/backup-solution/backup-configs/bitcraft-fileserver.json
+00      23      *       *       0-6     python /backupspace/backup-solution/bitcraft-backup.py -c /backupspace/backup-solution/backup-configs/bitcraft-jenkins.json
+30      22      *       *       0-6     python /backupspace/backup-solution/bitcraft-backup.py -c /backupspace/backup-solution/backup-configs/bitcraft-rancher-target-three.json
+30      23      *       *       0-6     python /backupspace/backup-solution/bitcraft-backup.py -c /backupspace/backup-solution/backup-configs/bitcraft-rancher-target-five.json

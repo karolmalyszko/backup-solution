@@ -3,11 +3,13 @@
     {
       "host" : "bitcraft-fileserver",
       "user" : "sonny",
-      "backupSource" : "/dockervolumes/",
+      "backupSource" : "/swp/",
       "backupDestination" : "/backupspace/bitcraft-fileserver/",
       "command" : "rsync",
       "arguments" : "-ravzX --delete",
-      "retentionPeriod" : "3"
+      "retentionPeriod" : "3",
+      "remoteScript" : "sudo bash /swp/remoteScript.sh",
+      "postExec" : "sudo rm -f /swp/*.tar.gz"
     }
   ]
 }
