@@ -142,3 +142,14 @@ def compressBackup(destination):
     os.system("rm -rf {}backup.0".format(destination))
 
     return 0
+
+
+def runPostExecCommand(config):
+    commandLine = "ssh {}@{} {}".format(config["user"], config["host"], config["postExec"])
+    logging.info("Running postExec command.")
+
+    if DEBUG:
+        logging.debug(commandLine)
+
+    os.system(commandLine)
+    return 0

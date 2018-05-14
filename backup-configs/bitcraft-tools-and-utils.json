@@ -9,7 +9,8 @@
       "command" : "rsync",
       "arguments" : "-razX --delete",
       "retentionPeriod" : "3",
-      "remoteScript" : "sudo bash /swp/remoteScript.sh"
+      "remoteScript" : "sudo bash /swp/remoteScript.sh",
+      "postExec" : "sudo rm -f /swp/*.tar.gz"
     }
   ]
 }

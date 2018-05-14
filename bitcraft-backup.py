@@ -7,6 +7,7 @@ from Helpers import configurationValidator
 from Helpers import executeSimpleBackupJob
 from Helpers import executeRemoteScript
 from Helpers import s3sync
+from Helpers import runPostExecCommand
 import settings
 import logging
 
@@ -65,6 +66,10 @@ def runBackup(configfile):
                         executeSimpleBackupJob(server)
 
                 s3sync(server["backupDestination"], server["host"])
+
+                if "postExec" in server:
+                    if server["postExec"] is not "":
+                        runPostExecCommand(server)
 
         logging.info("Finished job from configuration file.")
         exit(0)
