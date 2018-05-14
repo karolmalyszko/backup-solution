@@ -1,5 +1,5 @@
 {
-  "servers" : [
+  "server" : [
     {
       "host" : "bitcraft-jenkins",
       "user" : "sonny",
