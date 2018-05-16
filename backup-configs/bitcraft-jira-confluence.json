@@ -1,0 +1,15 @@
+{
+  "server" : [
+    {
+      "host" : "bitcraft-jira-confluence",
+      "user" : "sonny",
+      "backupSource" : "/swp/",
+      "backupDestination" : "/backupspace/bitcraft-jira-confluence/",
+      "command" : "rsync",
+      "arguments" : "-ravzX --delete",
+      "retentionPeriod" : "3",
+      "remoteScript" : "sudo bash /swp/remoteScript.sh",
+      "postExec" : "sudo rm -f /swp/*.tar.gz"
+    }
+  ]
+}

@@ -5,3 +5,7 @@
 00      23      *       *       0-6     python /backupspace/backup-solution/bitcraft-backup.py -c /backupspace/backup-solution/backup-configs/bitcraft-jenkins.json
 30      22      *       *       0-6     python /backupspace/backup-solution/bitcraft-backup.py -c /backupspace/backup-solution/backup-configs/bitcraft-rancher-target-three.json
 30      23      *       *       0-6     python /backupspace/backup-solution/bitcraft-backup.py -c /backupspace/backup-solution/backup-configs/bitcraft-rancher-target-five.json
+00      02      *       *       0-6     python /backupspace/backup-solution/bitcraft-backup.py -c /backupspace/backup-solution/backup-configs/bitcraft-sentry.json
+00      03      *       *       0-6     python /backupspace/backup-solution/bitcraft-backup.py -c /backupspace/backup-solution/backup-configs/bitcraft-registry.json
+30      02      *       *       0-6     python /backupspace/backup-solution/bitcraft-backup.py -c /backupspace/backup-solution/backup-configs/bitcraft-ewidencja.json
+30      03      *       *       0-6     python /backupspace/backup-solution/bitcraft-backup.py -c /backupspace/backup-solution/backup-configs/bitcraft-jira-confluence.json
