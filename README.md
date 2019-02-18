@@ -2,13 +2,13 @@ Backup solution designed specifically for pulling backups from **remote** machin
 
 **Usage**
 
-`python bitcraft-backup.py -c /absolute/path/to/configuration/file.json`
+`python backuper.py -c /absolute/path/to/configuration/file.json`
 
 **Configuration file syntax**
 
 ```json
 {
-  "server" : 
+  "server" :
   [
     {
       "host" : "<name or IP address of remote host>",
